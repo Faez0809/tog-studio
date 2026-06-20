@@ -1,3 +1,3 @@
 export function InspectorDrawer() {
-  return <aside aria-label="Inspector" />;
+  return <aside aria-label="Inspector" className="hidden" />;
 }

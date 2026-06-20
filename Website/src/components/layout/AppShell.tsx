@@ -5,10 +5,10 @@ import { TopBar } from "./TopBar";
 
 export function AppShell({ children }: PropsWithChildren) {
   return (
-    <div className="min-h-screen">
+    <div className="grid min-h-screen grid-cols-[240px_1fr] grid-rows-[64px_1fr] bg-slate-50">
       <SidebarNav />
       <TopBar />
-      <main>{children}</main>
+      <main className="col-start-2 row-start-2 p-8">{children}</main>
       <InspectorDrawer />
     </div>
   );
