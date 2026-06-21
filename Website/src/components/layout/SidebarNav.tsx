@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { routes } from "@/app/routes/routes";
 
-export function SidebarNav() {
+export function SidebarNav({open,onClose}:{open:boolean;onClose:()=>void}) {
   return (
+    <>
+    {open&&<button className="fixed inset-0 z-40 bg-slate-950/50 lg:hidden" aria-label="Close navigation" onClick={onClose}/>}
     <nav
       aria-label="Primary"
-      className="row-span-2 border-r border-slate-200 bg-white px-4 py-5"
+      className={`fixed inset-y-0 left-0 z-50 w-60 border-r border-slate-200 bg-white px-4 py-5 transition-transform dark:border-slate-800 dark:bg-slate-900 lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:translate-x-0 ${open?"translate-x-0":"-translate-x-full"}`}
     >
       <div className="mb-6 text-sm font-semibold uppercase tracking-wide text-slate-500">
         TOG-2 Visualizer
@@ -24,6 +26,6 @@ export function SidebarNav() {
           {route.label}
         </NavLink>
       ))}
-    </nav>
+    </nav></>
   );
 }
