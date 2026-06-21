@@ -1,9 +1,11 @@
-export function GraphPlaygroundPage() {
-  return (
-    <section aria-labelledby="graph-playground-page-title">
-      <h1 id="graph-playground-page-title" className="text-2xl font-semibold text-slate-950">
-        Graph Playground - Coming Soon
-      </h1>
-    </section>
-  );
+import { useEffect, useState } from "react";
+import { ReactFlowProvider } from "reactflow";
+import { ExpansionSimulator,GraphControls,GraphExampleSelector,GraphInspector,GraphLegend,GraphMetricsPanel,InteractiveGraph,ReasoningPathViewer } from "@/components/graph";
+import { graphExamples } from "@/data";
+import type { GraphExample } from "@/types";
+
+export function GraphPlaygroundPage(){const [example,setExample]=useState(graphExamples[0]);const [depth,setDepth]=useState(0);const [nodeId,setNodeId]=useState<string|null>(example.nodes[0].id);const [edgeId,setEdgeId]=useState<string|null>(null);const [replaying,setReplaying]=useState(false);const [pathOnly,setPathOnly]=useState(false);const [fitNonce,setFitNonce]=useState(0);
+ useEffect(()=>{if(!replaying)return;if(depth>=example.maxDepth){setReplaying(false);return}const timer=window.setTimeout(()=>setDepth(x=>x+1),900);return()=>window.clearTimeout(timer)},[replaying,depth,example.maxDepth]);
+ const choose=(x:GraphExample)=>{setExample(x);setDepth(0);setNodeId(x.nodes[0].id);setEdgeId(null);setReplaying(false);setPathOnly(false)};const clear=()=>{setNodeId(null);setEdgeId(null)};
+ return <ReactFlowProvider><section className="space-y-4"><GraphExampleSelector examples={graphExamples} selectedId={example.id} onSelect={choose}/><div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3"><GraphControls pathOnly={pathOnly} onPathOnly={()=>setPathOnly(x=>!x)} onFit={()=>setFitNonce(x=>x+1)}/><div className="text-right"><p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">How TOG uses this graph</p><p className="max-w-2xl text-xs text-slate-600">{example.educationalNotes}</p></div></div><GraphMetricsPanel example={example} depth={depth}/><ExpansionSimulator depth={depth} maxDepth={example.maxDepth} replaying={replaying} onExpand={()=>setDepth(x=>Math.min(example.maxDepth,x+1))} onCollapse={()=>{setDepth(0);clear()}} onReset={()=>{setDepth(0);setNodeId(example.nodes[0].id);setEdgeId(null);setReplaying(false);setPathOnly(false)}} onReplay={()=>{if(replaying){setReplaying(false)}else{setDepth(0);clear();setReplaying(true)}}}/><div className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_330px]"><div className="relative"><InteractiveGraph example={example} depth={depth} pathOnly={pathOnly} selectedNodeId={nodeId} selectedEdgeId={edgeId} fitNonce={fitNonce} onNode={id=>{setNodeId(id);setEdgeId(null)}} onEdge={id=>{setEdgeId(id);setNodeId(null)}} onClear={clear}/><div className="absolute bottom-3 left-3 right-20"><GraphLegend/></div></div><GraphInspector example={example} depth={depth} nodeId={nodeId} edgeId={edgeId}/></div><ReasoningPathViewer example={example} depth={depth}/><section className="grid gap-3 lg:grid-cols-[1fr_1fr]"><div className="rounded-xl border border-amber-200 bg-amber-50 p-4"><h2 className="text-sm font-bold text-amber-900">Common graph challenges</h2><ul className="mt-2 grid gap-2 text-xs leading-5 text-amber-800 sm:grid-cols-3">{example.challenges.map(x=><li className="rounded-lg bg-white/70 p-2" key={x}>• {x}</li>)}</ul></div><div className="rounded-xl border border-rose-200 bg-rose-50 p-4"><h2 className="text-sm font-bold text-rose-900">Over-expansion risk · why pruning matters</h2><p className="mt-2 text-xs leading-5 text-rose-800">{example.pruningNote}</p></div></section></section></ReactFlowProvider>;
 }
