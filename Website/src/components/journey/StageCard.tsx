@@ -1,4 +1,5 @@
 import type { StageSpec } from "@/types";
+import { VisualizationRenderer } from "@/components/visualizations";
 
 type StageCardProps = {
   stage: StageSpec;
@@ -13,7 +14,7 @@ function TokenList({ items, tone }: { items: string[]; tone: "cyan" | "slate" })
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((item) => (
-        <span key={item} className={`rounded border px-2.5 py-1 text-xs font-medium ${className}`}>
+        <span key={item} className={`max-w-full break-words rounded border px-2.5 py-1 text-xs font-medium ${className}`}>
           {item}
         </span>
       ))}
@@ -49,13 +50,7 @@ export function StageCard({ stage }: StageCardProps) {
         </ol>
       </section>
 
-      <section className="mt-6 border-t border-slate-200 pt-5">
-        <h3 className="text-base font-semibold text-slate-950">Related Visualization</h3>
-        <dl className="mt-3 grid gap-1 rounded-md border border-cyan-200 bg-cyan-50 p-4 text-sm sm:grid-cols-[150px_1fr]">
-          <dt className="font-medium text-cyan-800">Visualization Type</dt>
-          <dd className="font-semibold text-cyan-950">{stage.visualizationLabel}</dd>
-        </dl>
-      </section>
+      <VisualizationRenderer stage={stage} />
 
       <div className="mt-6 grid gap-5 xl:grid-cols-2">
         <section>

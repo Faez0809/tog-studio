@@ -31,12 +31,12 @@ export function JourneyPage() {
         onSelectStage={handleSelectStage}
       />
 
-      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_380px]">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(240px,280px)_minmax(0,1fr)_minmax(300px,380px)]">
         <div className="xl:sticky xl:top-8 xl:self-start">
           <JourneyTimeline stages={stages} selectedStageId={selectedStage.id} onSelectStage={handleSelectStage} />
         </div>
-        <StageCard stage={selectedStage} />
-        <RuntimeInspector stage={selectedStage} />
+        <div className="min-w-0"><StageCard stage={selectedStage} /></div>
+        <div className="min-w-0"><RuntimeInspector stage={selectedStage} /></div>
       </div>
 
       <EvidencePreview stage={selectedStage} />
