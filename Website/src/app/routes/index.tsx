@@ -1,10 +1,11 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import {
   ArchitectureExplorerPage,
   ExecutionDebuggerPage,
   FunctionGalleryPage,
   GraphPlaygroundPage,
   JourneyPage,
+  LandingPage,
   NotFoundPage,
 } from "@/pages";
 import { routes } from "./routes";
@@ -12,7 +13,8 @@ import { routes } from "./routes";
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={routes.journey.path} replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/home" element={<LandingPage />} />
       <Route path={routes.journey.path} element={<JourneyPage />} />
       <Route path={routes.architecture.path} element={<ArchitectureExplorerPage />} />
       <Route path={routes.debugger.path} element={<ExecutionDebuggerPage />} />
