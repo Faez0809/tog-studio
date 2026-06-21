@@ -1,9 +1,4 @@
-export function ArchitectureExplorerPage() {
-  return (
-    <section aria-labelledby="architecture-page-title">
-      <h1 id="architecture-page-title" className="text-2xl font-semibold text-slate-950">
-        Architecture Explorer - Coming Soon
-      </h1>
-    </section>
-  );
-}
+import { useMemo, useState } from "react";
+import { ArchitectureGraph,ArchitectureLegend,DataFlowDiagram,DependencyFilterBar,ExternalServicePanel,ModuleInspector,ModuleStatsBar,type ArchitectureFilter } from "@/components/architecture";
+import { architecture } from "@/data";
+export function ArchitectureExplorerPage(){const [filter,setFilter]=useState<ArchitectureFilter>('all');const [selectedId,setSelectedId]=useState('main');const [flowStage,setFlowStage]=useState('dataset');const selected=useMemo(()=>architecture.files.find(f=>f.id===selectedId)??architecture.files[0],[selectedId]);return <section aria-labelledby="architecture-page-title" className="space-y-6"><header className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[.18em] text-cyan-700">Interactive documentation</p><h1 id="architecture-page-title" className="mt-1 text-2xl font-semibold text-slate-950">Architecture Explorer</h1><p className="mt-1 max-w-3xl text-sm text-slate-600">Trace how ToG-2 delegates graph search, retrieves evidence, calls external services, and turns a dataset record into an answer.</p></div><ArchitectureLegend/></header><ModuleStatsBar data={architecture}/><DependencyFilterBar value={filter} onChange={setFilter}/><div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_370px]"><ArchitectureGraph data={architecture} filter={filter} selectedId={selected.id} onSelect={file=>setSelectedId(file.id)}/><div className="xl:max-h-[570px] xl:overflow-y-auto"><ModuleInspector file={selected}/></div></div><DataFlowDiagram selected={flowStage} onSelect={setFlowStage}/><ExternalServicePanel services={architecture.externalServices}/></section>}

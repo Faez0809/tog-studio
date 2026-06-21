@@ -1,0 +1,2 @@
+const items=[['Runtime','bg-violet-500'],['Retrieval','bg-cyan-500'],['Graph','bg-amber-500'],['Utilities','bg-slate-500'],['Data','bg-emerald-500'],['External service','bg-rose-500']];
+export function ArchitectureLegend(){return <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-600">{items.map(([label,color])=><span key={label} className="flex items-center gap-1.5"><i className={`h-2.5 w-2.5 rounded-full ${color}`}/>{label}</span>)}</div>}
