@@ -41,7 +41,7 @@ export function LandingPage() {
         {menuOpen && <div className="absolute inset-x-4 top-16 rounded-2xl border border-white/10 bg-[#0c192b] p-4 shadow-2xl md:hidden"><a onClick={()=>setMenuOpen(false)} className="block p-3" href="#about">What is TOG?</a><a onClick={()=>setMenuOpen(false)} className="block p-3" href="#features">Explore</a><a onClick={()=>setMenuOpen(false)} className="block p-3" href="#learning">Learning path</a><Link className="mt-2 flex p-3 text-cyan-300" to={routes.journey.path}>Start learning <ArrowRight className="ml-2" size={18}/></Link></div>}
       </header>
 
-      <main>
+      <main id="main-content">
         <section className="landing-hero landing-section">
           <div className="relative z-10 max-w-3xl">
             <div className="landing-kicker"><Sparkles size={15}/> Learn graph reasoning by seeing it</div>

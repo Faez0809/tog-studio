@@ -8,20 +8,6 @@ const ExecutionDebuggerPage=lazy(()=>import("@/pages/ExecutionDebuggerPage").the
 const GraphPlaygroundPage=lazy(()=>import("@/pages/GraphPlaygroundPage").then(m=>({default:m.GraphPlaygroundPage})));
 const FunctionGalleryPage=lazy(()=>import("@/pages/FunctionGalleryPage").then(m=>({default:m.FunctionGalleryPage})));
 const NotFoundPage=lazy(()=>import("@/pages/NotFoundPage").then(m=>({default:m.NotFoundPage})));
-
-export function AppRoutes() {
-  return (
-    <Suspense fallback={<div className="grid min-h-[50vh] place-items-center" role="status">Loading visualizer…</div>}><Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/home" element={<LandingPage />} />
-      <Route path={routes.journey.path} element={<JourneyPage />} />
-      <Route path={routes.architecture.path} element={<ArchitectureExplorerPage />} />
-      <Route path={routes.debugger.path} element={<ExecutionDebuggerPage />} />
-      <Route path={routes.playground.path} element={<GraphPlaygroundPage />} />
-      <Route path={routes.functions.path} element={<FunctionGalleryPage />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes></Suspense>
-  );
-}
-
-export { routes } from "./routes";
+function RouteSkeleton(){return <div className="route-skeleton space-y-5" role="status" aria-label="Loading page"><div className="h-6 w-40 rounded bg-slate-200"/><div className="h-10 max-w-xl rounded bg-slate-200"/><div className="grid gap-4 md:grid-cols-3"><div className="h-28 rounded-xl bg-slate-200"/><div className="h-28 rounded-xl bg-slate-200"/><div className="h-28 rounded-xl bg-slate-200"/></div><div className="h-72 rounded-xl bg-slate-200"/><span className="sr-only">Loading visualizer…</span></div>}
+export function AppRoutes(){return <Suspense fallback={<RouteSkeleton/>}><Routes><Route path="/" element={<LandingPage/>}/><Route path="/home" element={<LandingPage/>}/><Route path={routes.journey.path} element={<JourneyPage/>}/><Route path={routes.architecture.path} element={<ArchitectureExplorerPage/>}/><Route path={routes.debugger.path} element={<ExecutionDebuggerPage/>}/><Route path={routes.playground.path} element={<GraphPlaygroundPage/>}/><Route path={routes.functions.path} element={<FunctionGalleryPage/>}/><Route path="*" element={<NotFoundPage/>}/></Routes></Suspense>}
+export {routes} from "./routes";

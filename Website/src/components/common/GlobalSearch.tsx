@@ -1,19 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { stages, functions, files } from "@/data";
+import { useDebouncedValue } from "@/hooks";
+const searchIndex=[...stages.map(x=>({title:x.name,detail:x.purpose,type:"Stage",path:"/journey",search:`${x.name} ${x.purpose}`.toLowerCase()})),...functions.map(x=>({title:x.name,detail:x.file,type:"Function",path:"/functions",search:`${x.name} ${x.file}`.toLowerCase()})),...files.map(x=>({title:x.name,detail:x.path,type:"File",path:"/architecture",search:`${x.name} ${x.path}`.toLowerCase()}))];
 
-export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => void }) {
+export const GlobalSearch=memo(function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState(""); const input = useRef<HTMLInputElement>(null); const navigate = useNavigate();
+  const debouncedQuery=useDebouncedValue(query);
   useEffect(() => { if (open) setTimeout(() => input.current?.focus(), 0); }, [open]);
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase(); if (!q) return [];
-    return [
-      ...stages.map(x => ({ title: x.name, detail: x.purpose, type: "Stage", path: "/journey" })),
-      ...functions.map(x => ({ title: x.name, detail: x.file, type: "Function", path: "/functions" })),
-      ...files.map(x => ({ title: x.name, detail: x.path, type: "File", path: "/architecture" })),
-    ].filter(x => `${x.title} ${x.detail}`.toLowerCase().includes(q)).slice(0, 12);
-  }, [query]);
+    const q=debouncedQuery.trim().toLowerCase();if(!q)return[];return searchIndex.filter(x=>x.search.includes(q)).slice(0,12);
+  }, [debouncedQuery]);
   if (!open) return null;
   return <div className="fixed inset-0 z-[100] flex items-start justify-center bg-slate-950/60 p-4 pt-[12vh] backdrop-blur-sm" onMouseDown={onClose}>
     <section role="dialog" aria-modal="true" aria-label="Search documentation" className="surface w-full max-w-2xl overflow-hidden shadow-2xl" onMouseDown={e => e.stopPropagation()}>
@@ -22,4 +20,4 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
       {!query && <p className="muted p-6 text-center text-sm">Start typing to explore the TOG-2 documentation.</p>}
     </section>
   </div>;
-}
+});

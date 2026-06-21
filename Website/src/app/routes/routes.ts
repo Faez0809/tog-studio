@@ -1,4 +1,5 @@
 export const routes = {
+  home: { path: "/", label: "Home" },
   journey: { path: "/journey", label: "Journey" },
   architecture: { path: "/architecture", label: "Architecture" },
   debugger: { path: "/debugger", label: "Execution Debugger" },
