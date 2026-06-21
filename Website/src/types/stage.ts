@@ -13,6 +13,7 @@ export type StageSpec = {
   id: StageId;
   name: string;
   purpose: string;
+  howItWorks: string[];
   inputs: string[];
   outputs: string[];
   functions: string[];
@@ -20,4 +21,5 @@ export type StageSpec = {
   runtimeVariables: string[];
   failureCases: string[];
   visualizationType: string;
+  visualizationLabel: string;
 };

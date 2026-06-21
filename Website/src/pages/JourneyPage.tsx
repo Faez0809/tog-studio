@@ -1,9 +1,45 @@
+import { useMemo, useState } from "react";
+import {
+  EvidencePreview,
+  JourneyTimeline,
+  PipelineFlow,
+  QuestionRunHeader,
+  RuntimeInspector,
+  StageCard,
+} from "@/components/journey";
+import { stages } from "@/data";
+import type { StageId, StageSpec } from "@/types";
+
 export function JourneyPage() {
+  const [selectedStageId, setSelectedStageId] = useState<StageId>("self_consistency");
+
+  const selectedStage = useMemo(
+    () => stages.find((stage) => stage.id === selectedStageId) ?? stages[0],
+    [selectedStageId],
+  );
+
+  const handleSelectStage = (stage: StageSpec) => {
+    setSelectedStageId(stage.id);
+  };
+
   return (
-    <section aria-labelledby="journey-page-title">
-      <h1 id="journey-page-title" className="text-2xl font-semibold text-slate-950">
-        Journey Page - Coming Soon
-      </h1>
+    <section aria-labelledby="journey-page-title" className="space-y-6">
+      <QuestionRunHeader />
+      <PipelineFlow
+        stages={stages}
+        selectedStageId={selectedStage.id}
+        onSelectStage={handleSelectStage}
+      />
+
+      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_380px]">
+        <div className="xl:sticky xl:top-8 xl:self-start">
+          <JourneyTimeline stages={stages} selectedStageId={selectedStage.id} onSelectStage={handleSelectStage} />
+        </div>
+        <StageCard stage={selectedStage} />
+        <RuntimeInspector stage={selectedStage} />
+      </div>
+
+      <EvidencePreview stage={selectedStage} />
     </section>
   );
 }
