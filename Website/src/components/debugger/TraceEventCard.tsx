@@ -1,0 +1,6 @@
+import type { TraceEvent } from "@/types";
+import { Check, Circle } from "lucide-react";
+
+export function TraceEventCard({ step, index, state, onClick }: { step:TraceEvent; index:number; state:"complete"|"current"|"future"; onClick:()=>void }) {
+  return <button onClick={onClick} className={`relative w-full rounded-lg border p-3 text-left transition ${state==="current"?"border-blue-400 bg-blue-50 shadow-sm ring-1 ring-blue-200":state==="complete"?"border-emerald-200 bg-emerald-50/60":"border-slate-200 bg-white hover:bg-slate-50"}`}><div className="flex gap-3"><span className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full text-xs font-bold ${state==="current"?"bg-blue-600 text-white":state==="complete"?"bg-emerald-500 text-white":"bg-slate-100 text-slate-400"}`}>{state==="complete"?<Check size={14}/>:state==="future"?<Circle size={10}/>:index+1}</span><div className="min-w-0"><p className={`text-sm font-semibold ${state==="current"?"text-blue-900":"text-slate-800"}`}>{step.stage}</p><p className="truncate font-mono text-[11px] text-slate-500">{step.functionName}()</p><p className="mt-1 text-[10px] text-slate-400">+{(step.timestamp/1000).toFixed(2)}s</p></div></div></button>;
+}

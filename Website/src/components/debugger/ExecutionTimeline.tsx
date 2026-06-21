@@ -1,0 +1,3 @@
+import type { TraceEvent } from "@/types";
+import { TraceEventCard } from "./TraceEventCard";
+export function ExecutionTimeline({ trace,current,onSelect }:{trace:TraceEvent[];current:number;onSelect:(i:number)=>void}) { return <section className="rounded-xl border border-slate-200 bg-slate-50 p-4"><div className="mb-3"><h2 className="text-sm font-bold text-slate-900">Execution timeline</h2><p className="text-xs text-slate-500">Select any pipeline stage</p></div><div className="space-y-2">{trace.map((step,i)=><TraceEventCard key={step.id} step={step} index={i} state={i<current?"complete":i===current?"current":"future"} onClick={()=>onSelect(i)}/>)}</div></section> }
