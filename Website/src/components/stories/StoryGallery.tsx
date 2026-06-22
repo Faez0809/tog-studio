@@ -1,0 +1,2 @@
+import type { RuntimeStory } from "@/data/runtimeStories";import { StoryCard } from "./StoryCard";
+export function StoryGallery({stories,selected,onSelect}:{stories:RuntimeStory[];selected:string;onSelect:(id:string)=>void}){return stories.length?<div className="grid snap-x gap-4 overflow-x-auto pb-3 md:grid-cols-2 md:overflow-visible xl:grid-cols-4">{stories.map(s=><StoryCard key={s.id} story={s} selected={s.id===selected} onSelect={()=>onSelect(s.id)}/>)}</div>:<div className="surface p-10 text-center text-slate-500">No runtime stories match those filters.</div>}

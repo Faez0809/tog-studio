@@ -5,6 +5,7 @@ export const routes = {
   debugger: { path: "/debugger", label: "Execution Debugger" },
   playground: { path: "/graph-playground", label: "Graph Playground" },
   functions: { path: "/functions", label: "Function Gallery" },
+  caseStudies: { path: "/case-studies", label: "Case Studies" },
 } as const;
 
 export type RouteKey = keyof typeof routes;

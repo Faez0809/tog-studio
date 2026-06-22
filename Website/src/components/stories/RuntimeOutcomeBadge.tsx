@@ -1,0 +1,2 @@
+import { CheckCircle2, AlertTriangle, GitBranch } from "lucide-react";
+export function RuntimeOutcomeBadge({mode}:{mode:string}){const fail=/fallback|without|error|gpt_only|generate/i.test(mode);return <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold ${fail?"border-amber-300 bg-amber-50 text-amber-800":"border-emerald-300 bg-emerald-50 text-emerald-800"}`}>{fail?<AlertTriangle className="h-3.5 w-3.5"/>:<CheckCircle2 className="h-3.5 w-3.5"/>}{mode||<><GitBranch className="h-3.5 w-3.5"/>runtime</>}</span>}
